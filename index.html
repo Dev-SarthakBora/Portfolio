@@ -433,6 +433,42 @@
           }
         }
 
+        /* Bar tooltip & value */
+        .bar {
+          position: relative;
+        }
+        
+        .bar::before {
+          content: attr(data-tooltip);
+          position: absolute;
+          bottom: 105%;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(15, 23, 42, 0.9);
+          color: #e0e7ff;
+          font-size: 11px;
+          padding: 4px 8px;
+          border-radius: 6px;
+          white-space: nowrap;
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.2s ease;
+        }
+        
+        .bar::after {
+          content: attr(data-value) '%';
+          position: absolute;
+          top: -18px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 11px;
+          font-weight: 600;
+          color: #c7d2fe;
+        }
+        
+        .bar:hover::before {
+          opacity: 1;
+        }
 
     </style>
 </head>
@@ -580,7 +616,7 @@
     </div>
 
     <!-- Two Column Layout -->
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+    <div class="grid md:grid-cols-2 gap-12 items-start">
 
       <!-- Visualization Card -->
       <div class="data-viz mb-4" id="aboutViz">
@@ -1222,13 +1258,16 @@
         
           const labelList = [];
         
-          bars.forEach(bar => {
-            const value = bar.getAttribute(`data-${mode}`);
-            const label = bar.getAttribute(`data-label-${mode}`);
-        
-            bar.style.height = value + '%';
-            labelList.push(label);
-          });
+        bars.forEach(bar => {
+              const value = bar.getAttribute(`data-${mode}`);
+              const label = bar.getAttribute(`data-label-${mode}`);
+            
+              bar.style.height = value + '%';
+              bar.setAttribute('data-tooltip', label);
+              bar.setAttribute('data-value', value);
+            
+              labelList.push(label);
+            });
         
           caption.textContent =
             mode === 'a'
