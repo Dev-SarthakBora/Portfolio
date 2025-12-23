@@ -489,6 +489,38 @@
           border-radius: 6px;
         }
 
+        /* ===== Project Flip Effect ===== */
+        .project-card {
+          perspective: 1200px;
+          cursor: pointer;
+        }
+        
+        .project-inner {
+          position: relative;
+          width: 100%;
+          min-height: 420px;
+          transform-style: preserve-3d;
+          transition: transform 0.7s ease;
+        }
+        
+        .project-card.flipped .project-inner {
+          transform: rotateY(180deg);
+        }
+        
+        .project-face {
+          position: absolute;
+          inset: 0;
+          backface-visibility: hidden;
+        }
+        
+        .project-front {
+          z-index: 2;
+        }
+        
+        .project-back {
+          transform: rotateY(180deg);
+        }
+
     </style>
 </head>
 <body>
@@ -861,50 +893,114 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Project 1 -->
                     <div class="glass-card project-card p-6 fade-in">
-                        <div class="w-full h-48 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg mb-4 flex items-center justify-center">
-                            <i class="fas fa-chart-bar text-6xl text-white/80"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">Retail Sales Analysis</h3>
-                        <p class="text-slate-400 mb-4 text-sm">
-                           Analyzed retail sales data to identify revenue trends, customer behavior, and high-performing categories using data cleaning, EDA, and visual dashboards.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="text-xs px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 rounded-full">DataCleaning in Excel</span>
-                            <span class="text-xs px-3 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full">Power BI</span>
-                            <span class="text-xs px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full">Power Query</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="https://github.com/Dev-SarthakBora/retail-analysis/" class="text-indigo-400 hover:text-indigo-300 transition">
+                        <div class="project-inner">
+                        
+                          <!-- FRONT -->
+                          <div class="project-face project-front">
+                            <div class="w-full h-48 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg mb-4 flex items-center justify-center">
+                              <i class="fas fa-chart-bar text-6xl text-white/80"></i>
+                            </div>
+                        
+                            <h3 class="text-xl font-bold mb-3">Retail Sales Analysis</h3>
+                            <p class="text-slate-400 mb-4 text-sm">
+                              Click to explore insights & business impact
+                            </p>
+                        
+                            <div class="flex flex-wrap gap-2">
+                              <span class="text-xs px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 rounded-full">Excel</span>
+                              <span class="text-xs px-3 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full">Power BI</span>
+                              <span class="text-xs px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full">EDA</span>
+                            </div>
+                          </div>
+                        
+                          <!-- BACK -->
+                          <div class="project-face project-back">
+                            <h3 class="text-lg font-bold mb-2 text-indigo-300">What I Did</h3>
+                            <ul class="text-sm text-slate-300 mb-4 space-y-1">
+                              <li>• Cleaned and transformed raw retail sales data</li>
+                              <li>• Built interactive dashboards in Power BI</li>
+                              <li>• Analyzed category-wise and monthly trends</li>
+                            </ul>
+                        
+                            <h4 class="text-sm font-semibold text-purple-300 mb-1">Insights Delivered</h4>
+                            <p class="text-sm text-slate-400 mb-4">
+                              Identified high-revenue categories and seasonal demand spikes,
+                              helping improve inventory and sales strategy.
+                            </p>
+                        
+                            <div class="flex gap-4">
+                              <a href="https://github.com/Dev-SarthakBora/retail-analysis/"
+                                 target="_blank"
+                                 onclick="event.stopPropagation()"
+                                 class="text-indigo-400 hover:text-indigo-300">
                                 <i class="fab fa-github mr-1"></i>Code
-                            </a>
-                            <a href="https://dev-sarthakbora.github.io/retail-analysis/" class="text-purple-400 hover:text-purple-300 transition">
+                              </a>
+                              <a href="https://dev-sarthakbora.github.io/retail-analysis/"
+                                 target="_blank"
+                                 onclick="event.stopPropagation()"
+                                 class="text-purple-400 hover:text-purple-300">
                                 <i class="fas fa-external-link-alt mr-1"></i>Demo
-                            </a>
+                              </a>
+                            </div>
+                          </div>
+                        
                         </div>
-                    </div>
+                        
+                            </div>
 
                     <!-- Project 2 -->
                     <div class="glass-card project-card p-6 fade-in" style="transition-delay: 0.1s">
-                        <div class="w-full h-48 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg mb-4 flex items-center justify-center">
-                            <i class="fas fa-brain text-6xl text-white/80"></i>
-                        </div>
-                        <h3 class="text-xl font-bold mb-3">Bike dekho sales analysis</h3>
-                        <p class="text-slate-400 mb-4 text-sm">
-                            Analyzed bike purchase trends to uncover gender-based consumer behavior through data cleaning, exploratory analysis, visual dashboards, and actionable business insights.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="text-xs px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 rounded-full">Excel</span>
-                            <span class="text-xs px-3 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full">Data Cleaning</span>
-                            <span class="text-xs px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full">EDA</span>
-                        </div>
-                        <div class="flex gap-3">
-                            <a href="https://github.com/Dev-SarthakBora/BikeDekhoAnalysis/" class="text-indigo-400 hover:text-indigo-300 transition">
+                        <div class="project-inner">
+                        
+                          <div class="project-face project-front">
+                            <div class="w-full h-48 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg mb-4 flex items-center justify-center">
+                              <i class="fas fa-brain text-6xl text-white/80"></i>
+                            </div>
+                        
+                            <h3 class="text-xl font-bold mb-3">BikeDekho Sales Analysis</h3>
+                            <p class="text-slate-400 mb-4 text-sm">
+                              Click to view analysis & insights
+                            </p>
+                        
+                            <div class="flex flex-wrap gap-2">
+                              <span class="text-xs px-3 py-1 bg-indigo-500/20 border border-indigo-500/30 rounded-full">Excel</span>
+                              <span class="text-xs px-3 py-1 bg-purple-500/20 border border-purple-500/30 rounded-full">EDA</span>
+                              <span class="text-xs px-3 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full">Data Cleaning</span>
+                            </div>
+                          </div>
+                        
+                          <div class="project-face project-back">
+                            <h3 class="text-lg font-bold mb-2 text-indigo-300">What I Did</h3>
+                            <ul class="text-sm text-slate-300 mb-4 space-y-1">
+                              <li>• Cleaned bike purchase dataset</li>
+                              <li>• Analyzed gender-based buying behavior</li>
+                              <li>• Created summary dashboards</li>
+                            </ul>
+                        
+                            <h4 class="text-sm font-semibold text-purple-300 mb-1">Insights Delivered</h4>
+                            <p class="text-sm text-slate-400 mb-4">
+                              Revealed key demographic trends influencing bike purchases,
+                              supporting targeted marketing decisions.
+                            </p>
+                        
+                            <div class="flex gap-4">
+                              <a href="https://github.com/Dev-SarthakBora/BikeDekhoAnalysis/"
+                                 target="_blank"
+                                 onclick="event.stopPropagation()"
+                                 class="text-indigo-400 hover:text-indigo-300">
                                 <i class="fab fa-github mr-1"></i>Code
-                            </a>
-                            <a href="https://dev-sarthakbora.github.io/BikeDekhoAnalysis/" class="text-purple-400 hover:text-purple-300 transition">
+                              </a>
+                              <a href="https://dev-sarthakbora.github.io/BikeDekhoAnalysis/"
+                                 target="_blank"
+                                 onclick="event.stopPropagation()"
+                                 class="text-purple-400 hover:text-purple-300">
                                 <i class="fas fa-external-link-alt mr-1"></i>Demo
-                            </a> 
+                              </a>
+                            </div>
+                          </div>
+                        
                         </div>
+
                     </div>
 
                     <!-- Project 3 -->
@@ -1362,6 +1458,14 @@
             progressBar.style.width = scrollPercent + '%';
           }
         });
+
+        // Project card flip interaction
+        document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+            
+  });
+});
 
     </script>
 </body>
