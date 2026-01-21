@@ -33,4 +33,4 @@ The website is designed to be **clean, professional, and recruiter-friendly**.
 - **GitHub Pages** (deployment)
 
 ---
-
+## Future improvements related suggestions are always welcome.
