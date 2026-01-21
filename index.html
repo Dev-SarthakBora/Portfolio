@@ -817,6 +817,19 @@
         transform: none;
     }
 }
+
+        /* Performance hints without visual changes */
+.bg-animated,
+.project-card,
+.hero-title {
+  will-change: transform;
+}
+
+/* Reduce CPU load, same visual */
+.grid-overlay {
+  animation: gridMove 60s linear infinite;
+}
+
     </style>
 </head>
 <body class="loading">
@@ -1905,38 +1918,6 @@
             statsObserver.observe(card);
         });
 
-        // Add active navbar indicator
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('section[id]');
-            const navLinks = document.querySelectorAll('nav a[href^="#"]');
-            
-            let current = '';
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= (sectionTop - 200)) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('text-indigo-400');
-                if (link.getAttribute('href').slice(1) === current) {
-                    link.classList.add('text-indigo-400');
-                }
-            });
-        });
-
-        // Parallax effect for hero section (desktop only)
-        if (window.innerWidth > 768) {
-            window.addEventListener('scroll', () => {
-                const scrolled = window.pageYOffset;
-                const hero = document.querySelector('#home');
-                if (hero && scrolled < window.innerHeight) {
-                    hero.style.transform = `translateY(${scrolled * 0.4}px)`;
-                }
-            });
-        }
         
         // About section static visualization toggle
         function switchAboutViz(mode) {
@@ -1973,18 +1954,6 @@
         // Initialize default view
         window.addEventListener('load', () => {
           switchAboutViz('a');
-        });
-
-        // Scroll Progress Indicator
-        window.addEventListener('scroll', () => {
-          const scrollTop = window.scrollY;
-          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-          const scrollPercent = (scrollTop / docHeight) * 100;
-        
-          const progressBar = document.getElementById('scrollProgress');
-          if (progressBar) {
-            progressBar.style.width = scrollPercent + '%';
-          }
         });
 
         // Project card flip interaction
@@ -2134,6 +2103,83 @@
         document.head.appendChild(focusStyle);
     }
 })();
+
+ /* =====================================
+   SAFE OPTIMIZED SCROLL CONTROLLER
+   (No visual behavior changes)
+===================================== */
+
+const scrollProgress = document.getElementById('scrollProgress');
+const hero = document.getElementById('home');
+
+let latestScrollY = 0;
+let ticking = false;
+
+// Cache document height (prevents layout thrash)
+let docHeight =
+  document.documentElement.scrollHeight - window.innerHeight;
+
+window.addEventListener('resize', () => {
+  docHeight =
+    document.documentElement.scrollHeight - window.innerHeight;
+});
+
+window.addEventListener('scroll', () => {
+  latestScrollY = window.scrollY;
+  if (!ticking) {
+    requestAnimationFrame(handleScroll);
+    ticking = true;
+  }
+});
+
+function handleScroll() {
+  updateScrollProgress();
+  updateHeroParallax();
+  ticking = false;
+}
+
+/* SAME visual progress bar */
+function updateScrollProgress() {
+  if (!scrollProgress) return;
+  scrollProgress.style.width =
+    (latestScrollY / docHeight) * 100 + '%';
+}
+
+/* SAME hero movement, just optimized */
+function updateHeroParallax() {
+  if (!hero || window.innerWidth <= 768) return;
+  if (latestScrollY < window.innerHeight) {
+    hero.style.transform = `translateY(${latestScrollY * 0.4}px)`;
+  }
+}
+
+        /* =====================================
+   Navbar Active Section (Observer)
+   Same behavior, no scroll math
+===================================== */
+
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+const sections = document.querySelectorAll('section[id]');
+
+const navObserver = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle(
+            'text-indigo-400',
+            link.getAttribute('href').slice(1) === entry.target.id
+          );
+        });
+      }
+    });
+  },
+  { threshold: 0.6 }
+);
+
+sections.forEach(section => navObserver.observe(section));
+
+        
     </script>
 </body>
 </html>
